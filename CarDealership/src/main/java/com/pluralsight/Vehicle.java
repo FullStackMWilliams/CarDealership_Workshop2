@@ -1,5 +1,8 @@
 package com.pluralsight;
 
+import java.util.Objects;
+
+
 public class Vehicle {
 
     private int vin;
@@ -93,4 +96,48 @@ public class Vehicle {
     public String toString() {
         return String.format("%-6d %-4d %-10s %-12s %-6s %-10s %9d $%,10.2f", vin, year, make, model, type, color, odometer, price);
     }
+
+    public static Vehicle fromPipe(String line) {
+        if (line == null || line.isBlank()) {
+            return null;
+        }
+
+        String[] parts = line.split("\\|");
+        if (parts.length < 8) {
+            throw new IllegalArgumentException("Invalid vehicle data format: " + line);
+        }
+
+        int vin = Integer.parseInt(parts[0].trim());
+        int year = Integer.parseInt(parts[1].trim());
+        String make = parts[2].trim();
+        String model = parts[3].trim();
+        String type = parts[4].trim();
+        String color = parts[5].trim();
+        int odometer = Integer.parseInt(parts[6].trim());
+        double price = Double.parseDouble(parts[7].trim());
+
+        return new Vehicle(vin, year, make, model, type, color, odometer, price);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Vehicle vehicle = (Vehicle) o;
+        return vin == vehicle.vin &&
+                year == vehicle.year &&
+                odometer == vehicle.odometer &&
+                Double.compare(vehicle.price, price) == 0 &&
+                Objects.equals(make, vehicle.make) &&
+                Objects.equals(model, vehicle.model) &&
+                Objects.equals(type, vehicle.type) &&
+                Objects.equals(color, vehicle.color);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(vin, year, make, model, type, color, odometer, price);
+    }
+
 }
