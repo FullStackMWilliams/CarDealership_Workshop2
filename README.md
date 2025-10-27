@@ -37,7 +37,7 @@ On every file load, the app prints a clear summary:
 
 ---
 
-## 🧱 Tech Stack
+# 🧱 Tech Stack
 | Component | Purpose |
 | --- | --- |
 | Java 17+ | Core language |
@@ -47,7 +47,7 @@ On every file load, the app prints a clear summary:
 
 ---
 
-## 🗂️ Project Structure
+# 🗂️ Project Structure
 
 ```
 ├── src/
@@ -67,7 +67,7 @@ On every file load, the app prints a clear summary:
 
 ---
 
-## ▶️ Getting Started
+# ▶️ Getting Started
 
 ### Requirements
 - Java **17+**
