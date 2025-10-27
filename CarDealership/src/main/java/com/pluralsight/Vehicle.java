@@ -86,4 +86,11 @@ public class Vehicle {
     public void setPrice(double price) {
         this.price = price;
     }
+
+    public String toPipe(){
+        return vin + "|" + year + "|" + make + "|" + model + "|" + type + "|" + color + "|" + odometer + "|" + String.format("%.2f", price);
+    }
+    public String toString() {
+        return String.format("%-6d %-4d %-10s %-12s %-6s %-10s %9d $%,10.2f", vin, year, make, model, type, color, odometer, price);
+    }
 }
