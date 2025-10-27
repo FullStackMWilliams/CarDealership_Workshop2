@@ -42,6 +42,27 @@ public class UserInterface {
     private void init() {
         fileManager = new DealershipFileManager(); // defaults to "inventory.csv"
         dealership = fileManager.getDealership();
+
+        // After loading the dealership
+        List<String> badRecords = fileManager.getSkippedRecords();
+
+        if (!badRecords.isEmpty()) {
+            System.out.println("\n⚠️ Some records were skipped due to invalid data:");
+            for (String bad : badRecords) {
+                System.out.println("   " + bad);
+            }
+
+            System.out.println("\nWould you like to fix these now? (yes/no)");
+            Scanner scanner = new Scanner(System.in);
+            String response = scanner.nextLine().trim().toLowerCase();
+
+            if (response.startsWith("y")) {
+                fixSkippedRecords(fileManager, dealership, badRecords);
+            } else {
+                System.out.println("⏭️ Skipped fixing. You can fix them later in the inventory file.");
+            }
+        }
+
     }
 
     private void printHeader() {
@@ -63,6 +84,45 @@ public class UserInterface {
                 9 - Remove a vehicle
                 0 - Quit
                 """);
+    }
+
+    private void fixSkippedRecords(DealershipFileManager fileManager, Dealership dealership, List<String> badRecords) {
+        Scanner scanner = new Scanner(System.in);
+
+        for (String bad : badRecords) {
+            System.out.println("\n❌ Invalid record detected: " + bad);
+            System.out.println("Please re-enter the full line in this format:");
+            System.out.println("VIN|Year|Make|Model|Type|Color|Odometer|Price");
+            System.out.print("> ");
+            String fixed = scanner.nextLine().trim();
+
+            // Validate new entry
+            String[] p = fixed.split("\\|");
+            if (p.length == 8) {
+                try {
+                    int vin = Integer.parseInt(p[0].trim());
+                    int year = Integer.parseInt(p[1].trim());
+                    String make = p[2].trim();
+                    String model = p[3].trim();
+                    String type = p[4].trim();
+                    String color = p[5].trim();
+                    long odometer = Long.parseLong(p[6].trim());
+                    double price = Double.parseDouble(p[7].trim());
+
+                    Vehicle v = new Vehicle(vin, year, make, model, type, color, odometer, price);
+                    dealership.addVehicle(v);
+                    System.out.println("✅ Record fixed and added successfully!");
+
+                } catch (Exception e) {
+                    System.err.println("⚠️ Invalid input — skipping this record for now.");
+                }
+            } else {
+                System.err.println("⚠️ Incorrect format. Skipping this record.");
+            }
+        }
+
+        // Save the updated dealership
+        fileManager.saveDealership(dealership);
     }
 
     private void displayVehicles(List<Vehicle> list) {
@@ -127,6 +187,7 @@ public class UserInterface {
 
     private void processAddVehicle() {
         System.out.println("\n➕ Add Vehicle");
+
         int vin = readInt("VIN (int): ");
         int year = readInt("Year: ");
         System.out.print("Make: ");
@@ -141,10 +202,31 @@ public class UserInterface {
         double price = readDouble("Price: ");
 
         Vehicle v = new Vehicle(vin, year, make, model, type, color, mileage, price);
-        dealership.addVehicle(v);
+
+        // ✅ Check for existing VIN before adding
+        boolean added = dealership.addVehicle(v);
+
+        if (!added) {
+            System.out.println("\n⚠️ A vehicle with VIN " + vin + " already exists in inventory.");
+            System.out.print("Would you like to replace it? (yes/no): ");
+            String response = in.nextLine().trim().toLowerCase();
+
+            if (response.startsWith("y")) {
+                dealership.removeVehicleByVin(vin);
+                dealership.addVehicle(v);
+                System.out.println("✅ Existing vehicle replaced successfully!");
+            } else {
+                System.out.println("⏭️ Skipped adding duplicate VIN: " + vin);
+            }
+        } else {
+            System.out.println("✅ Vehicle added successfully!");
+        }
+
+        // ✅ Always save after add/replace
         fileManager.saveDealership(dealership);
-        System.out.println("✅ Vehicle added and inventory saved.");
+        System.out.println("💾 Inventory saved.");
     }
+
 
     private void processRemoveVehicle() {
         System.out.println("\n🗑  Remove Vehicle");

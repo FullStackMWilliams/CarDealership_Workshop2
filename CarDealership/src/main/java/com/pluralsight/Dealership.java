@@ -19,69 +19,73 @@ public class Dealership {
         this.inventory = new ArrayList<>();
     }
 
-    public String getName() {
-        return name;
-    }
+    // --- Basic Getters ---
+    public String getName() { return name; }
+    public String getAddress() { return address; }
+    public String getPhone() { return phone; }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void addVehicle(Vehicle vehicle) {
+    // --- Add Vehicle (with Duplicate VIN Check) ---
+    public boolean addVehicle(Vehicle vehicle) {
+        for (Vehicle existing : inventory) {
+            if (existing.getVin() == vehicle.getVin()) {
+                System.out.println("⚠️ A vehicle with VIN " + vehicle.getVin() + " already exists in inventory.");
+                return false; // Duplicate detected
+            }
+        }
         inventory.add(vehicle);
+        return true; // Added successfully
     }
 
-    public boolean removeVehicle(int vin) {
-        return inventory.removeIf(vehicle -> vehicle.getVin() == vin);
+    // --- Remove Vehicle by VIN ---
+    public boolean removeVehicleByVin(int vin) {
+        return inventory.removeIf(v -> v.getVin() == vin);
     }
 
+    // --- Get All Vehicles ---
     public List<Vehicle> getAllVehicles() {
         return new ArrayList<>(inventory);
     }
 
+    // --- Filtering / Query Methods ---
     public List<Vehicle> getVehiclesByPrice(double min, double max) {
         return inventory.stream()
-                .filter(vehicle -> vehicle.getPrice() >= min && vehicle.getPrice() <= max)
+                .filter(v -> v.getPrice() >= min && v.getPrice() <= max)
                 .collect(Collectors.toList());
     }
 
     public List<Vehicle> getVehiclesByMakeModel(String make, String model) {
         String m1 = make == null ? "" : make.toLowerCase(Locale.ROOT).trim();
-        String m2 =  model == null ? "" : model.toLowerCase(Locale.ROOT).trim();
+        String m2 = model == null ? "" : model.toLowerCase(Locale.ROOT).trim();
         return inventory.stream()
-                .filter(vehicle ->
-                        (m1.isEmpty() || vehicle.getMake().toLowerCase(Locale.ROOT).contains(m1)) &&
-                                (m2.isEmpty() || vehicle.getModel().toLowerCase(Locale.ROOT).contains(m2)))
+                .filter(v ->
+                        (m1.isEmpty() || v.getMake().toLowerCase(Locale.ROOT).contains(m1)) &&
+                                (m2.isEmpty() || v.getModel().toLowerCase(Locale.ROOT).contains(m2)))
                 .collect(Collectors.toList());
     }
 
     public List<Vehicle> getVehiclesByYear(int minYear, int maxYear) {
         return inventory.stream()
-                .filter(vehicle -> vehicle.getYear() >= minYear && vehicle.getYear() <= maxYear)
+                .filter(v -> v.getYear() >= minYear && v.getYear() <= maxYear)
                 .collect(Collectors.toList());
     }
 
     public List<Vehicle> getVehiclesByColor(String color) {
         String c = color == null ? "" : color.toLowerCase(Locale.ROOT).trim();
         return inventory.stream()
-                .filter(vehicle -> vehicle.getColor().toLowerCase(Locale.ROOT).contains(c))
+                .filter(v -> v.getColor().toLowerCase(Locale.ROOT).contains(c))
                 .collect(Collectors.toList());
     }
 
     public List<Vehicle> getVehiclesByMileage(long min, long max) {
         return inventory.stream()
-                .filter(vehicle -> vehicle.getOdometer() >= min && vehicle.getOdometer() <= max)
+                .filter(v -> v.getOdometer() >= min && v.getOdometer() <= max)
                 .collect(Collectors.toList());
     }
 
     public List<Vehicle> getVehiclesByType(String type) {
         String t = type == null ? "" : type.toLowerCase(Locale.ROOT).trim();
         return inventory.stream()
-                .filter(vehicle -> vehicle.getType().toLowerCase(Locale.ROOT).contains(t))
+                .filter(v -> v.getType().toLowerCase(Locale.ROOT).contains(t))
                 .collect(Collectors.toList());
     }
 }
