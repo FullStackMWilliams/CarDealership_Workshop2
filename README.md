@@ -139,7 +139,7 @@ public boolean removeVehicleByVin(int vin) {
 }
 ```
 
-# Safe File Loading with Counters (FileManager)
+## Safe File Loading with Counters (FileManager)
 
 ```java
 // increment vehiclesSkipped++ when invalid;
@@ -152,7 +152,7 @@ if (dealership.getAllVehicles().stream().anyMatch(v -> v.getVin() == vin)) {
 dealership.addVehicle(new Vehicle(vin, year, make, model, type, color, odometer, price));
 vehiclesLoaded++;
 ```
-# Summary Report (FileManager)
+## Summary Report (FileManager)
 
 ```java
 public void printSummaryReport() {
@@ -169,7 +169,7 @@ public void printSummaryReport() {
 
 ---
 
-## 🧪 Testing
+# 🧪 Testing
 IntelliJ (Library approach)
 
 1. File → Project Structure → Libraries → + → From Maven
