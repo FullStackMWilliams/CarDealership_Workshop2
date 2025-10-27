@@ -32,7 +32,7 @@ On every file load, the app prints a clear summary:
 ⚠️ Skipped bad lines: 2
 🚫 Duplicates ignored: 1
 
-## 📁 Total records processed: 41
+📁 Total records processed: 41
 
 
 ---
