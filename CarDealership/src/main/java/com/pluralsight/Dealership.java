@@ -49,7 +49,7 @@ public class Dealership {
                 .collect(Collectors.toList());
     }
 
-    public List<Vehicle> getVehicleByMakeModel(String make, String model) {
+    public List<Vehicle> getVehiclesByMakeModel(String make, String model) {
         String m1 = make == null ? "" : make.toLowerCase(Locale.ROOT).trim();
         String m2 =  model == null ? "" : model.toLowerCase(Locale.ROOT).trim();
         return inventory.stream()
@@ -65,14 +65,14 @@ public class Dealership {
                 .collect(Collectors.toList());
     }
 
-    public List<Vehicle> getVehicleByColor(String color) {
+    public List<Vehicle> getVehiclesByColor(String color) {
         String c = color == null ? "" : color.toLowerCase(Locale.ROOT).trim();
         return inventory.stream()
                 .filter(vehicle -> vehicle.getColor().toLowerCase(Locale.ROOT).contains(c))
                 .collect(Collectors.toList());
     }
 
-    public List<Vehicle> getVehicleByMileage(long min, long max) {
+    public List<Vehicle> getVehiclesByMileage(long min, long max) {
         return inventory.stream()
                 .filter(vehicle -> vehicle.getOdometer() >= min && vehicle.getOdometer() <= max)
                 .collect(Collectors.toList());
