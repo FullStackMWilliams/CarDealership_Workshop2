@@ -32,7 +32,7 @@ On every file load, the app prints a clear summary:
 ⚠️ Skipped bad lines: 2
 🚫 Duplicates ignored: 1
 
-# 📁 Total records processed: 41
+## 📁 Total records processed: 41
 
 
 ---
@@ -88,7 +88,7 @@ On every file load, the app prints a clear summary:
 
 ---
 
-## 📄 CSV Format (pipe-delimited)
+# 📄 CSV Format (pipe-delimited)
 
 Header + vehicles (example):
 ```
@@ -115,12 +115,12 @@ Field order (8 fields per vehicle):
 
 8. Price (double)
 
-# ❗ Keep the first line as the dealership header: Name|Address|Phone.
+## ❗ Keep the first line as the dealership header: Name|Address|Phone.
 
 ---
 
-## 🧮 Key Implementation Details
-# Duplicate VIN Protection (Dealership)
+# 🧮 Key Implementation Details
+## Duplicate VIN Protection (Dealership)
 
 ```java
 public boolean addVehicle(Vehicle vehicle) {
