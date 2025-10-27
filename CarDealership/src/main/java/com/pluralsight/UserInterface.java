@@ -231,7 +231,7 @@ public class UserInterface {
     private void processRemoveVehicle() {
         System.out.println("\n🗑  Remove Vehicle");
         int vin = readInt("Enter VIN to remove: ");
-        boolean removed = dealership.removeVehicle(vin);
+        boolean removed = dealership.removeVehicleByVin(vin);
         if (removed) {
             fileManager.saveDealership(dealership);
             System.out.println("✅ Vehicle removed and inventory saved.");
