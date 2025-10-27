@@ -24,10 +24,10 @@
 - **Interactive Recovery:** UI can prompt to fix invalid records
 - **Fail-Safe Defaults:** Missing/blank file auto-creates a default dealership
 
-### 📊 Summary Reporting
+# 📊 Summary Reporting
 On every file load, the app prints a clear summary:
 
-# 📊 Dealership Data Summary
+## 📊 Dealership Data Summary
 ✅ Vehicles loaded: 38
 ⚠️ Skipped bad lines: 2
 🚫 Duplicates ignored: 1
