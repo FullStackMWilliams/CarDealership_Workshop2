@@ -28,7 +28,7 @@ public class UserInterface {
                 case "7" -> processAllVehicles();
                 case "8" -> processAddVehicle();
                 case "9" -> processRemoveVehicle();
-                case "99" -> {
+                case "0" -> {
                     System.out.println("\n👋 Goodbye!");
                     running = false;
                 }
@@ -45,9 +45,9 @@ public class UserInterface {
     }
 
     private void printHeader() {
-        System.out.println("\n====================================================");
+        System.out.println("\n=========================================================");
         System.out.printf("   🚗 %s  —  %s  —  %s%n", dealership.getName(), dealership.getAddress(), dealership.getPhone());
-        System.out.println("====================================================");
+        System.out.println("=========================================================");
     }
 
     private void printMenu() {
@@ -61,7 +61,7 @@ public class UserInterface {
                 7 - List ALL vehicles
                 8 - Add a vehicle
                 9 - Remove a vehicle
-                99 - Quit
+                0 - Quit
                 """);
     }
 
